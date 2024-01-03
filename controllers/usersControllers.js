@@ -57,7 +57,24 @@ const signin = async (req, res) => {
       })
 }
 
+const logout = async(req, res) => {
+  const {_id} = req.user;
+
+  await User.findByIdAndUpdate(_id, {token: "",});
+  //res.status(204).json();
+  //res.status(204).end();
+  res.sendStatus(204);
+};
+
+const current = (req, res) => {
+  const {email, name, avatar}  = req.user;
+  console.log(req.user);
+  res.json({email, name, avatar});
+};
+
 module.exports = {
     signup,
     signin,
+    logout,
+    current,
 }

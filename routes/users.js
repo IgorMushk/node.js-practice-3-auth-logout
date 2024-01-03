@@ -1,5 +1,5 @@
 const express = require("express");
-const {signup, signin} = require("../controllers/usersControllers");
+const {signup, signin, logout, current} = require("../controllers/usersControllers");
 const { userSignupSchema, userSigninSchema } = require("../schemas/usersSchema");
 const validationBody = require("../decoration/validationBody");
 const authenticate = require("../middlewares/authenticate");
@@ -10,9 +10,9 @@ router.post('/signup', validationBody(userSignupSchema), signup);
 
 router.post('/login', validationBody(userSigninSchema), signin);
 
-router.post('/logout', authenticate);
+router.post('/logout', authenticate, logout);
 
-router.get('/current', authenticate)
+router.get('/current', authenticate, current)
 
 module.exports = router;
 
