@@ -18,3 +18,9 @@
 
 Frontend  
 https://github.com/IgorMushk/node.js-practice-4-auth-frontend-hw8
+
+
+
+#### - avatar - GET http://localhost:8000/users/avatar  
+
+![Screenshoot-1](./assets/screen.jpg)

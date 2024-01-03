@@ -2,6 +2,9 @@ const User = require("../db/models/userModel");
 const gravatar = require("gravatar");
 const jwt = require("jsonwebtoken");
 const {SECRET_KEY} = process.env;
+const path = require("path");
+const fs = require("fs/promises");
+const avatarsDir = path.join(__dirname, "../", "public", "avatars");
 
 const signup = async (req, res) => {
   const { name, email, password } = req.body;
@@ -72,9 +75,25 @@ const current = (req, res) => {
   res.json({email, name, avatar});
 };
 
+const updateAvatar = async (req, res) => {
+  const { _id } = req.user;
+  const { path: tempUpload, originalname } = req.file;
+  const filename = `${_id}_${originalname}`;
+  const resultUpdate = path.join(avatarsDir, filename);
+  await fs.rename(tempUpload, resultUpdate);
+
+  const avatarURL = path.join("avatars", filename);
+
+  await User.findByIdAndUpdate(_id, { avatarURL });
+
+  res.json({ avatarURL });
+};
+
+
 module.exports = {
     signup,
     signin,
     logout,
     current,
+    updateAvatar,
 }
