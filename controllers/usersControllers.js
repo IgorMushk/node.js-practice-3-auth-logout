@@ -84,7 +84,7 @@ const updateAvatar = async (req, res) => {
 
   const avatarURL = path.join("avatars", filename);
 
-  await User.findByIdAndUpdate(_id, { avatarURL });
+  await User.findByIdAndUpdate(_id, { avatar: avatarURL });
 
   res.json({ avatarURL });
 };
