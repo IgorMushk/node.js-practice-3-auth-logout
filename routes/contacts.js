@@ -3,15 +3,16 @@ const ctrl = require("../controllers/contactsControllers");
 const contactSchema = require("../schemas/contactsSchema");
 const validationBody = require("../decoration/validationBody");
 const validationId = require("../middlewares/validationId");
-const updateNameSchema = require("../schemas/updateNameSchema")
+const updateNameSchema = require("../schemas/updateNameSchema");
+const authenticate = require("../middlewares/authenticate");
 
 const router = express.Router()
 
-router.get('/',ctrl.getContactsController );
+router.get('/', authenticate, ctrl.getContactsController );
 
-router.post('/', validationBody(contactSchema), ctrl.addContactController);
+router.post('/', authenticate, validationBody(contactSchema), ctrl.addContactController);
 
-router.delete('/:contactId', validationId, ctrl.deleteContactController )
+router.delete('/:contactId', authenticate, validationId, ctrl.deleteContactController )
 
 router.get('/:contactId', validationId, ctrl.getContactControllerById );
 

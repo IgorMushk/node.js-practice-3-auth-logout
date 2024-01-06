@@ -1,18 +1,22 @@
 const services = require("../services/contactsServices");
 
 const getContactsController = async (req, res) => {
-    const result = await services.getContacts();
+    const {_id} = req.user;
+    console.log('getContactsController :',_id);
+    const result = await services.getContacts(_id);
     res.status(200).json(result);
 };
 
 const addContactController = async (req, res) =>  {
-    const result = await services.addContact(req.body);
+    const {_id} = req.user;
+    const result = await services.addContact(req.body, _id);
     res.status(201).json(result);
 };
 
 const deleteContactController = async (req, res) =>  {
+    const {_id} = req.user;
     const {contactId} = req.params;
-    const result = await services.deleteContact(contactId);
+    const result = await services.deleteContact(contactId, _id);
     if (!result) {
        res.status(404).json({message: `There is no such user contact with id ${contactId}`});
        return;
